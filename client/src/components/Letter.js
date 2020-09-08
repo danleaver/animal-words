@@ -9,7 +9,7 @@ const Letter = ({query, letter, ...props}) => {
   useEffect(() => {
     axios.get(`/api/animals/?search=${letter}&depth=${1}`)
     .then(res => {
-      console.log(`Results for ${letter} :`, res.data)
+      (res.data.length) && console.log(`Results for ${query + letter} :`, res.data)
       setAnimals(res.data)
     })
     .catch(console.log)
@@ -20,17 +20,14 @@ const Letter = ({query, letter, ...props}) => {
     
     switch(query.length) {
       case (query.length):
-
-        if (query.length > 0){
+        if (query.length){
           axios.get(`/api/animals/?search=${query + letter}&depth=${query.length + 1}`)
           .then(res => {
-            console.log(`Results for ${query + letter} :`, res.data)
+            (res.data.length) && console.log(`Results for ${query + letter} :`, res.data)
             setAnimals(res.data)
           })
           .catch(console.log)
         }     
-
-        console.log("Query Length", query.length)
       break;
     }
     
@@ -48,7 +45,6 @@ const Letter = ({query, letter, ...props}) => {
 
   const handleClick = () => {
     if (query + letter == animal.name){
-      console.log("YOU GOT A", query)
       props.setWord(query+letter)
     } else {
       props.setQuery(query+letter)
